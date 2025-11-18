@@ -1,8 +1,8 @@
 # IMC503 - COVID-19 Data Analysis
 ## Data Science Toolkit - SEA Lab Assessment
 
-**Student Name**: Rudresh Achari
-**Roll Number**: 2330
+**Student Name**: Rudresh Achari  
+**Roll Number**: 2330  
 **Date**: 18 November 2025
 
 ## Project Description
@@ -10,9 +10,9 @@ Analysis of global COVID-19 data with visualizations and insights using R progra
 
 ## Files Included
 - `country_wise_latest.csv` - Dataset
-- `covid_analysis.R` - Main analysis script
+- `SEA-LAB_2330.R` - Main analysis script
 - `findings.md` - Detailed findings and insights
-- `plot*.pdf` - 8 visualization PDFs
+- `all_plots.pdf` - 8 visualization PDFs
 
 ## How to Run
 1. Install required R packages: `tidyverse`, `ggplot2`, `scales`, `gridExtra`
