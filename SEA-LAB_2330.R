@@ -27,15 +27,17 @@ top20_countries <- covid_data %>%
   arrange(desc(Confirmed)) %>%
   head(20)
 
-p1 <- ggplot(top20_countries, aes(x = reorder(Country.Region, Confirmed), y = Confirmed)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
+p1 <- ggplot(top20_countries, aes(x = reorder(Country.Region, Confirmed), y = Confirmed, fill = Country.Region)) +
+  geom_bar(stat = "identity") +
   coord_flip() +
+  scale_fill_manual(values = colors_20) +
   labs(title = "Top 20 Countries by Confirmed COVID-19 Cases",
        x = "Country",
        y = "Confirmed Cases") +
   scale_y_continuous(labels = comma) +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "none")
 
 # ============================================================================
 # VISUALIZATION 2: Case Fatality Rate (Deaths per 100 Cases) - Top 20
