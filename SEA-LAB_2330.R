@@ -48,16 +48,18 @@ top20_fatality <- covid_data %>%
   head(20)
 
 p2 <- ggplot(top20_fatality, aes(x = reorder(Country.Region, Deaths...100.Cases), 
-                                 y = Deaths...100.Cases)) +
-  geom_bar(stat = "identity", fill = "darkred") +
+                                 y = Deaths...100.Cases, fill = Country.Region)) +
+  geom_bar(stat = "identity") +
   coord_flip() +
+  scale_fill_manual(values = colors_20_b) +
   labs(title = "Top 20 Countries by Case Fatality Rate",
        subtitle = "(Countries with at least 50 deaths)",
        x = "Country",
        y = "Deaths per 100 Cases") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        plot.subtitle = element_text(hjust = 0.5))
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "none")
 
 # ============================================================================
 # VISUALIZATION 3: Recovery Rate by WHO Region
