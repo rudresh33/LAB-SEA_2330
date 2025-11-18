@@ -129,14 +129,16 @@ top15_growth <- covid_data %>%
   head(15)
 
 p6 <- ggplot(top15_growth, aes(x = reorder(Country.Region, X1.week...increase), 
-                               y = X1.week...increase)) +
-  geom_bar(stat = "identity", fill = "orange") +
+                               y = X1.week...increase, fill = Country.Region)) +
+  geom_bar(stat = "identity") +
   coord_flip() +
+  scale_fill_manual(values = colors_15) +
   labs(title = "Top 15 Countries by Weekly Percentage Increase",
        x = "Country",
        y = "1 Week % Increase") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "none")
 
 # ============================================================================
 # VISUALIZATION 7: Regional Total Cases Pie Chart
