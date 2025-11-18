@@ -20,6 +20,11 @@ cat("Column Names:", names(covid_data), "\n\n")
 # Summary statistics
 summary(covid_data)
 
+# Generate color vectors with sufficient length
+colors_20 <- colorRampPalette(brewer.pal(9, "Set1"))(20)
+colors_20_b <- colorRampPalette(brewer.pal(9, "Reds"))(20)
+colors_15 <- colorRampPalette(brewer.pal(9, "Oranges"))(15)
+
 # ============================================================================
 # VISUALIZATION 1: Top 20 Countries by Confirmed Cases
 # ============================================================================
@@ -33,11 +38,14 @@ p1 <- ggplot(top20_countries, aes(x = reorder(Country.Region, Confirmed), y = Co
   scale_fill_manual(values = colors_20) +
   labs(title = "Top 20 Countries by Confirmed COVID-19 Cases",
        x = "Country",
-       y = "Confirmed Cases") +
+       y = "Confirmed Cases",
+       fill = "Country") +
   scale_y_continuous(labels = comma) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        legend.position = "none")
+        legend.position = "right",
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"))
 
 # ============================================================================
 # VISUALIZATION 2: Case Fatality Rate (Deaths per 100 Cases) - Top 20
@@ -55,11 +63,14 @@ p2 <- ggplot(top20_fatality, aes(x = reorder(Country.Region, Deaths...100.Cases)
   labs(title = "Top 20 Countries by Case Fatality Rate",
        subtitle = "(Countries with at least 50 deaths)",
        x = "Country",
-       y = "Deaths per 100 Cases") +
+       y = "Deaths per 100 Cases",
+       fill = "Country") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5),
-        legend.position = "none")
+        legend.position = "right",
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"))
 
 # ============================================================================
 # VISUALIZATION 3: Recovery Rate by WHO Region
@@ -83,10 +94,12 @@ p3 <- ggplot(regional_summary, aes(x = reorder(WHO.Region, Avg_Recovery_Rate),
   scale_fill_manual(values = region_colors) +
   labs(title = "Average Recovery Rate by WHO Region",
        x = "WHO Region",
-       y = "Average Recovery Rate (%)") +
+       y = "Average Recovery Rate (%)",
+       fill = "WHO Region") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        legend.position = "none")
+        legend.position = "right",
+        legend.text = element_text(size = 9))
 
 # ============================================================================
 # VISUALIZATION 4: Scatter Plot - Confirmed Cases vs Deaths
@@ -104,7 +117,8 @@ p4 <- ggplot(covid_data, aes(x = Confirmed, y = Deaths)) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5),
-        legend.position = "bottom")
+        legend.position = "right",
+        legend.text = element_text(size = 9))
 
 # ============================================================================
 # VISUALIZATION 5: Active Cases Distribution by Region
@@ -112,13 +126,16 @@ p4 <- ggplot(covid_data, aes(x = Confirmed, y = Deaths)) +
 p5 <- ggplot(covid_data, aes(x = WHO.Region, y = Active, fill = WHO.Region)) +
   geom_boxplot() +
   scale_y_log10(labels = comma) +
+  scale_fill_manual(values = region_colors) +
   labs(title = "Distribution of Active Cases by WHO Region",
        x = "WHO Region",
-       y = "Active Cases (log scale)") +
+       y = "Active Cases (log scale)",
+       fill = "WHO Region") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
         axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none")
+        legend.position = "right",
+        legend.text = element_text(size = 9))
 
 # ============================================================================
 # VISUALIZATION 6: Weekly Change Analysis - Top 15 Countries
@@ -135,10 +152,13 @@ p6 <- ggplot(top15_growth, aes(x = reorder(Country.Region, X1.week...increase),
   scale_fill_manual(values = colors_15) +
   labs(title = "Top 15 Countries by Weekly Percentage Increase",
        x = "Country",
-       y = "1 Week % Increase") +
+       y = "1 Week % Increase",
+       fill = "Country") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        legend.position = "none")
+        legend.position = "right",
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"))
 
 # ============================================================================
 # VISUALIZATION 7: Regional Total Cases Pie Chart
@@ -151,12 +171,15 @@ regional_cases <- covid_data %>%
 p7 <- ggplot(regional_cases, aes(x = "", y = Total_Cases, fill = WHO.Region)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar("y", start = 0) +
+  scale_fill_manual(values = region_colors) +
   labs(title = "Global COVID-19 Cases Distribution by WHO Region",
        fill = "WHO Region") +
   theme_void() +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "right",
+        legend.text = element_text(size = 10)) +
   geom_text(aes(label = paste0(round(Total_Cases/sum(Total_Cases)*100, 1), "%")),
-            position = position_stack(vjust = 0.5))
+            position = position_stack(vjust = 0.5), size = 4)
 
 # ============================================================================
 # VISUALIZATION 8: New Cases vs New Deaths
@@ -175,17 +198,18 @@ p8 <- ggplot(covid_filtered, aes(x = New.cases, y = New.deaths)) +
        color = "WHO Region") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        legend.position = "bottom")
+        legend.position = "right",
+        legend.text = element_text(size = 9))
 
 # ============================================================================
-# Save all plots
+# Save all plots with wider dimensions to accommodate legends
 # ============================================================================
-ggsave("plot1_top20_confirmed.pdf", plot = p1, width = 10, height = 8)
-ggsave("plot2_fatality_rate.pdf", plot = p2, width = 10, height = 8)
-ggsave("plot3_recovery_rate_region.pdf", plot = p3, width = 10, height = 8)
+ggsave("plot1_top20_confirmed.pdf", plot = p1, width = 12, height = 8)
+ggsave("plot2_fatality_rate.pdf", plot = p2, width = 12, height = 8)
+ggsave("plot3_recovery_rate_region.pdf", plot = p3, width = 11, height = 7)
 ggsave("plot4_cases_vs_deaths.pdf", plot = p4, width = 12, height = 8)
-ggsave("plot5_active_cases_distribution.pdf", plot = p5, width = 10, height = 8)
-ggsave("plot6_weekly_growth.pdf", plot = p6, width = 10, height = 8)
+ggsave("plot5_active_cases_distribution.pdf", plot = p5, width = 12, height = 8)
+ggsave("plot6_weekly_growth.pdf", plot = p6, width = 12, height = 8)
 ggsave("plot7_regional_distribution.pdf", plot = p7, width = 10, height = 8)
 ggsave("plot8_new_cases_deaths.pdf", plot = p8, width = 12, height = 8)
 
@@ -213,4 +237,3 @@ cat("\n\nRegional Summary:\n")
 print(regional_summary)
 
 cat("\n\nAnalysis Complete! All plots saved as PDF files.\n")
-
