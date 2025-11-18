@@ -74,15 +74,19 @@ regional_summary <- covid_data %>%
     Countries_Count = n()
   )
 
+region_colors <- brewer.pal(6, "Set2")
+
 p3 <- ggplot(regional_summary, aes(x = reorder(WHO.Region, Avg_Recovery_Rate), 
-                                   y = Avg_Recovery_Rate)) +
-  geom_bar(stat = "identity", fill = "forestgreen") +
+                                   y = Avg_Recovery_Rate, fill = WHO.Region)) +
+  geom_bar(stat = "identity") +
   coord_flip() +
+  scale_fill_manual(values = region_colors) +
   labs(title = "Average Recovery Rate by WHO Region",
        x = "WHO Region",
        y = "Average Recovery Rate (%)") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "none")
 
 # ============================================================================
 # VISUALIZATION 4: Scatter Plot - Confirmed Cases vs Deaths
