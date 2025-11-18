@@ -2,7 +2,9 @@
 
 **IMC503 Data Science Toolkit - SEA Lab Assessment**  
 **Date: 18 November 2025**  
-**Dataset: Country-wise Latest COVID-19 Statistics** 
+**Dataset: Country-wise Latest COVID-19 Statistics**  
+**Student Name**: Rudresh Achari  
+**Roll Number**: 2330  
 
 
 ---
